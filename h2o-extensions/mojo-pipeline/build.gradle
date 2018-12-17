@@ -1,0 +1,43 @@
+description = "H2O MOJO Pipeline support"
+
+dependencies {
+    compile project(":h2o-core")
+    compile "ai.h2o:mojo2-runtime-api:0.13.7"
+
+    testCompile "junit:junit:${junitVersion}"
+    testCompile "net.sf.opencsv:opencsv:2.3"
+    testCompile project(path: ":h2o-core", configuration: "testArchives")
+}
+
+apply from: "${rootDir}/gradle/dataCheck.gradle"
+
+task daiEnvironmentCheck {
+    doLast {
+        if (! file("${System.getenv('DRIVERLESS_AI_LICENSE_FILE')}").isFile()) {
+            throw new ResourceException('Please make sure environment variable DRIVERLESS_AI_LICENSE_FILE is defined and points to a valid DAI license file.')
+        }
+        if (! file("${System.getenv('MOJO_PIPELINE_TEST_DIR')}").isDirectory()) {
+            throw new ResourceException('Environment property MOJO_PIPELINE_TEST_DIR is not point to a valid directory.')
+        }
+    }
+}
+
+task extractMojoRuntime(type: Copy) {
+    dependsOn daiEnvironmentCheck
+    def zipFile = new File(file("${System.getenv('MOJO_PIPELINE_TEST_DIR')}").listFiles().head(), "mojo.zip")
+    def outputDir = file("${buildDir}/mojo2/")
+    include "**/mojo2-runtime.jar"
+    from zipTree(zipFile)
+    into outputDir
+}
+
+testSingleNode.dependsOn extractMojoRuntime
+
+test {
+    dependsOn ":h2o-core:testJar"
+    // Note: multi node tests are ignored right now!
+    dependsOn smalldataCheck, cpLibs, jar, testJar, testSingleNode
+
+    // Defeat task 'test' by running no tests.
+    exclude '**'
+}
