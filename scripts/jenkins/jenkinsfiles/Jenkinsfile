@@ -75,7 +75,7 @@ try {
 
             if (pipelineContext == null) {
               def initPipelineContext = load('h2o-3/scripts/jenkins/groovy/initPipelineContext.groovy')
-              pipelineContext = initPipelineContext(scmEnv, mode, !prJob)
+              pipelineContext = initPipelineContext(scmEnv, mode, !prJob, ['-DdoIncludeMojoPipeline=true'])
               pipelineContext.getBuildConfig().setJobProperties(this)
               // Load the defineTestStages script
               defineTestStages = load('h2o-3/scripts/jenkins/groovy/defineTestStages.groovy')

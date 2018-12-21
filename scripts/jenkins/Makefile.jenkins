@@ -219,6 +219,8 @@ test-package-java:
 		h2o-persist-s3/src/ \
 		h2o-persist-s3/build/libs/h2o-persist-s3-*.jar \
 		h2o-extensions/xgboost/ \
+		h2o-extensions/mojo-pipeline/src \
+		h2o-extensions/mojo-pipeline/build/libs/h2o-ext-mojo-pipeline-*.jar \
 		h2o-genmodel-extensions/ \
 		h2o-jaas-pam/build/libs/h2o-jaas-pam-*.jar \
 		h2o-scala/src/ \
@@ -353,3 +355,6 @@ endif
 	cd ../mojoland && ./gradlew clean
 	cd ../mojoland && ./gradlew build
 	cd ../mojoland/mojo-py && python in_mojo_veritas.py
+
+test-mojo2:
+	./gradlew :h2o-ext-mojo-pipeline:test $$ADDITIONAL_GRADLE_OPTS

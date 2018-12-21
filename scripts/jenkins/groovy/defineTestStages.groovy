@@ -43,12 +43,16 @@ def call(final pipelineContext) {
       stageName: 'Java 8 Smoke', target: 'test-junit-smoke-jenkins', javaVersion: 8, timeoutValue: 20,
       component: pipelineContext.getBuildConfig().COMPONENT_JAVA
     ],
-     [
-       stageName: 'Java 10 Smoke', target: 'test-junit-10-smoke-jenkins', javaVersion: 10, timeoutValue: 20,
-       component: pipelineContext.getBuildConfig().COMPONENT_JAVA
-     ],
+    [
+      stageName: 'Java 10 Smoke', target: 'test-junit-10-smoke-jenkins', javaVersion: 10, timeoutValue: 20,
+      component: pipelineContext.getBuildConfig().COMPONENT_JAVA
+    ],
     [
       stageName: 'Java 11 Smoke', target: 'test-junit-11-smoke-jenkins', javaVersion: 11, timeoutValue: 20,
+      component: pipelineContext.getBuildConfig().COMPONENT_JAVA
+    ],
+    [
+      stageName: 'MOJO2 Java 8', target: 'test-mojo2', javaVersion: 8, timeoutValue: 20,
       component: pipelineContext.getBuildConfig().COMPONENT_JAVA
     ]
   ]
@@ -475,7 +479,7 @@ private void executeInParallel(final jobs, final pipelineContext) {
           excludeAdditionalFiles = c['excludeAdditionalFiles']
           archiveFiles = c['archiveFiles']
           activatePythonEnv = c['activatePythonEnv']
-	      customDockerArgs = c['customDockerArgs']
+	        customDockerArgs = c['customDockerArgs']
         }
       }
     ]
