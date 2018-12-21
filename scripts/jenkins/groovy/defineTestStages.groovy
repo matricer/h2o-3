@@ -53,7 +53,11 @@ def call(final pipelineContext) {
     ],
     [
       stageName: 'MOJO2 Java 8', target: 'test-mojo2', javaVersion: 8, timeoutValue: 20,
-      component: pipelineContext.getBuildConfig().COMPONENT_JAVA
+      component: pipelineContext.getBuildConfig().COMPONENT_JAVA,
+      executionScript: 'h2o-3/scripts/jenkins/groovy/mojo2Stage.groovy',
+      customData: [
+        mojoDaiVersion: '1.4.0'
+      ]
     ]
   ]
 
